@@ -1,3 +1,5 @@
+#practical 6 - intelligent agents
+
 class MathTutor:
     def __init__(self):
         self.operations = {
