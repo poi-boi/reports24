@@ -1,3 +1,5 @@
+#Prac 3 - Conditional Probability and joint probability 
+
 import pandas as pd
 # Load the penguins dataset from a CSV file
 df = pd.read_csv('penguins.csv')
