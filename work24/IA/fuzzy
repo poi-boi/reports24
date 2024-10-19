@@ -1,3 +1,5 @@
+#Practical 5 - Design a Fuzzy based application using Python - traffic problem
+
 import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
@@ -41,3 +43,56 @@ print(f"Recommended Green Light Duration:{green_light_sim.output['green_light_du
 green_light_duration.view(sim=green_light_sim)
 # Show the plots
 plt.show()
+
+===========================================================
+
+#Practical 5 - Design a Fuzzy based application using Python - fan speed / temprature problem
+
+import numpy as np
+import skfuzzy as fuzz
+from skfuzzy import control as ctrl
+
+#step 1: Define the fuzzy varibales
+temprature=ctrl.Antecedent(np.arange(0,41,1), 'temprature')
+fan_speed = ctrl.Consequent(np.arange(0,101,1), 'fan_speed')
+
+temprature['very_low'] = fuzz.trimf(temprature.universe, [0,0,10])
+temprature['low'] = fuzz.trimf(temprature.universe, [0,0,15])
+temprature['medium'] = fuzz.trimf(temprature.universe, [10,20,30])
+temprature['high'] = fuzz.trimf(temprature.universe, [25,40,40])
+temprature['very_high'] = fuzz.trimf(temprature.universe, [35,40,40])
+
+#Define membership
+fan_speed['very_slow'] = fuzz.trimf(fan_speed.universe, [0,0,25])
+fan_speed['slow'] = fuzz.trimf(fan_speed.universe, [0,0,50])
+fan_speed['moderate'] = fuzz.trimf(fan_speed.universe, [25,50,75])
+fan_speed['fast'] = fuzz.trimf(fan_speed.universe, [50,100,100])
+fan_speed['very_fast'] = fuzz.trimf(fan_speed.universe, [75,100,100])
+
+#step3: define fuzzy rules
+rule1 = ctrl.Rule(temprature['low'], fan_speed['slow'])
+rule2 = ctrl.Rule(temprature['medium'], fan_speed['moderate'])
+rule3 = ctrl.Rule(temprature['high'], fan_speed['fast'])
+
+#Adding new rules
+rule4 = ctrl.Rule(temprature['very_low'], fan_speed['very_slow'])
+rule5 = ctrl.Rule(temprature['very_high'], fan_speed['very_fast'])
+
+#step4 : create control system
+fan_control_system = ctrl.ControlSystem([rule1,rule2,rule3,rule4,rule5])
+fan_simulation = ctrl.ControlSystemSimulation(fan_control_system)
+
+#step5 : impute temp and compute fan speed
+input_temprature = int(input("Enter temprature:"))
+fan_simulation.input['temprature']=input_temprature
+
+#Step 6
+fan_simulation.compute()
+
+#output
+fan_speed_output = fan_simulation.output['fan_speed']
+print(f"Given the temprature of {input_temprature}°c, the fan speed should be: {fan_speed_output:.2f}%")
+
+#visualize
+temprature.view()
+fan_speed.view()
