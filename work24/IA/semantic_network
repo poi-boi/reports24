@@ -1,20 +1,17 @@
+#practical 10 - semantic network
 
 class SemanticNetwork:
     def __init__(self):
         self.network = {}
-
     def add_concept(self, concept):
         if concept not in self.network:
             self.network[concept] = {'is_a': [], 'has_a': []}
-
     def add_relation(self, relation, concept1, concept2):
         self.add_concept(concept1)
         self.add_concept(concept2)
         self.network[concept1][relation].append(concept2)
-
     def get_relations(self, concept):
         return self.network.get(concept, {})
-
     def display_network(self):
         for concept, relations in self.network.items():
             print(f"Concept: {concept}")
