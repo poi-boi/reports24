@@ -1,14 +1,12 @@
+#Practical 9 - language parser
 class SimpleParser:
     def __init__(self, expr):
         self.tokens = expr.replace('(', ' ( ').replace(')', ' ) ').split()
         self.pos = 0
-
     def parse(self):
         return self.expr()
-
     def advance(self):
         self.pos += 1
-
     def current_token(self):
         return self.tokens[self.pos] if self.pos < len(self.tokens) else None
 
@@ -22,7 +20,6 @@ class SimpleParser:
                 self.advance()
                 result -= self.term()
         return result
-
     def term(self):
         result = self.factor()
         while self.current_token() in ('*', '/'):
@@ -33,7 +30,6 @@ class SimpleParser:
                 self.advance()
                 result /= self.factor()
         return result
-
     def factor(self):
         token = self.current_token()
         if token.isdigit():
