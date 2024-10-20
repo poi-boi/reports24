@@ -1,5 +1,29 @@
 #practical 6 - intelligent agents
 
+
+=================================================================
+#simplified 
+
+operations = {
+            '+': lambda a, b: a + b,
+            '-': lambda a, b: a - b,
+            '*': lambda a, b: a * b,
+            '/': lambda a, b: a / b,
+            }
+
+def perform_operation(operator, a, b):
+        if operator in operations:
+            return operations[operator](a, b)
+        else:
+            return None
+
+operator = input("Enter an operator (+, -, *, /): ")
+a = float(input("Enter the first number: "))
+b = float(input("Enter the second number: "))
+result = perform_operation(operator, a, b)
+print("Result of",a,operator,b, "=",result)
+=================================================================
+
 class MathTutor:
     def __init__(self):
         self.operations = {
